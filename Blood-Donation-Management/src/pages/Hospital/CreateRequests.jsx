@@ -1,5 +1,7 @@
 import React,{useState} from 'react'
 import Button from "../../components/Button";
+import { useDispatch } from "react-redux";
+import { createRequest } from "../../store/requestSlice";
 export default function CreateRequests() {
   const hospitalsList = ["City Hospital", "Life Care", "Hope Medical", "General Hospital"];
 const bloodGroups = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
@@ -8,21 +10,30 @@ const bloodGroups = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
     bloodgroup: "",
     date: "",
   });
-
+const dispatch = useDispatch();
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Request created:", formData);
-    // backend
-    alert("Request submitted!");
-    setFormData({ hospital: "", bloodgroup: "", date: "" });
-  };
+const handleSubmit = async () => {
+  const token = localStorage.getItem("token");
+  const res=await fetch("http://localhost:5000/api/requests", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(formData),
+  });
+  const data=await res.json();
+  if (!res.ok) {
+    alert(data.message);
+    return;
+  }
+  alert("Request created!");
+};
 
   return (
     <>

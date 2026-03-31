@@ -1,32 +1,33 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import Table from "../../components/Table";
-
+import { useSelector } from "react-redux";
 export default function HospitalDashboard() {
-  const columns = ["ID","Donor", "BloodGroup", "City", "Status"];
-//dummy data
-  const donorRequests = [
-    {
-      id: 1,  
-      donor: "Ali Khan",
-      bloodgroup: "B+",
-      city: "Lahore",
-      status: "Pending",
-    },
-    {
-      id: 2,
-      donor: "Sara Ahmed",
-      bloodgroup: "O+",
-      city: "Lahore",
-      status: "Completed",
-    },
-  ];
-
-
+  const donorColumns = ["Name","Phone", "BloodGroup","CIty" ];
+const [donorRequests, setdonorRequests] = useState([]);
+useEffect(() => {
+  const fetchDonorRequests = async () => {
+    const token = localStorage.getItem("token");
+    const res = await fetch("http://localhost:5000/api/requests",{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    setdonorRequests(data);
+  }
+  fetchDonorRequests();
+}, []);
+const donors = donorRequests.flatMap(req =>
+  req.donors.map(d => ({
+    ...d,
+    hospital: req.hospital
+  }))
+);
   return (
     <>
       <div className="mt-15 px-4">
-      <h2 className="text-2xl mb-5 font-semibold">Hospital Name</h2>
-        <Table columns={columns} data={donorRequests} />
+      <h3 className="text-2xl my-5 font-semibold">Available Donors</h3>
+        <Table columns={donorColumns} data={donors} />
       </div>
     </>
   );

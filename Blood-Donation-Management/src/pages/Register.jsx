@@ -3,20 +3,25 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../store/userSlice";
 export default function Register() {
   const [role, setRole] = useState("donor");
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
+    name:"",
     email: "",
     password: "",
     confirmPassword: "",
-    bloodGroup: "",
+    bloodgroup: "",
     city: "",
     phone: "",
     hospitalName: "",
     licenseNumber: "",
   });
+  const { confirmPassword, ...cleanData } = formData;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   // handle inputs change
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,16 +31,36 @@ export default function Register() {
     }));
   };
   // handle submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
       return;
     }
     setError("");
-    console.log("register Data:", { role, ...formData });
-    navigate("/admin");
-  };
+    const res= await fetch("http://localhost:5000/api/users/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ role, profile: cleanData }),
+    });
+    const data = await res.json();
+    console.log("Register response:", data);
+  if (!res.ok) {
+      setError(data.message || "Registration failed");
+      return;
+    }
+  dispatch(
+    registerUser({
+      ...data.user
+    })
+  );
+  navigate(
+    data.user.role === "donor"
+      ? "/donor"
+      : "/hospital"
+  );  };
 
   return (
     <div className="flex">
@@ -56,6 +81,14 @@ export default function Register() {
         >
           <h2 className="text-2xl font-bold ">Register</h2>
 
+          <Input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Name"
+            required
+          />
           <Input
             type="email"
             name="email"
@@ -82,7 +115,7 @@ export default function Register() {
             placeholder="Confirm Password"
             required
           />
-
+{error && <p className="text-red-500 text-sm">{error}</p>}
           <select
             value={role}
             onChange={(e) => setRole(e.target.value)}
@@ -95,8 +128,8 @@ export default function Register() {
           {role === "donor" && (
             <>
               <select
-                name="bloodGroup"
-                value={formData.bloodGroup}
+                name="bloodgroup"
+                value={formData.bloodgroup}
                 onChange={handleChange}
                 className="w-[80%] p-2 border border-gray-300 rounded"
               >
@@ -173,7 +206,7 @@ export default function Register() {
             </Link>
           </p>
 
-          <Button text="Register" onClick={handleSubmit} />
+          <Button text="Register" type="submit" />
         </form>
       </div>
     </div>

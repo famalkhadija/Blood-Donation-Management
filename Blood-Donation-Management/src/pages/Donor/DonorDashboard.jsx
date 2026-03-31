@@ -1,34 +1,57 @@
-import React from 'react'
+import React,{useEffect,useState} from "react";
 import Table from "../../components/Table";
-
+import { addDonor } from "../../store/donorRequestsSlice";
+import { useSelector, useDispatch } from "react-redux";
 export default function DonorDashboard() {
-  const columns = ["Hospital", "BloodGroup", "Date", "Status"];
-  //dummy data 
-  const requests = [
-    {
-      hospital: "City Hospital",
-      bloodgroup: "A+",
-      date: "12-02-2026",
-      status: "Pending",
+  const columns = ["ID", "Hospital", "BloodGroup", "City", "Date", "Status"];
+  const user = useSelector((state) => state.user.profile);
+  const dispatch = useDispatch();
+const [requests, setRequests] = useState([]);
 
+useEffect(() => {
+  const fetchRequests = async () => {
+    const token = localStorage.getItem("token");
+    const res = await fetch("http://localhost:5000/api/requests",{
+        headers: {
+    Authorization: `Bearer ${token}`,
+  },
+    });
+    const data = await res.json();
+    setRequests(data);
+  };
+
+  fetchRequests();
+}, []);
+const handleDonate = async (row) => {
+  await fetch(`http://localhost:5000/api/requests/${row.id}/donate`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
     },
-    {
-      hospital: "Life Care",
-      bloodgroup: "O-",
-      date: "10-02-2026",
-      status: "Pending",
-    },
-  ];
-  const handleAccept = (row) => {
-  console.log("Donor accepted:", row);
-  // backend 
+    body: JSON.stringify({
+      donor: {
+        name: user.name,
+        bloodgroup: user.bloodgroup,
+        phone: user.phone,
+        city: user.city,
+      },
+    }),
+  });
+
+  alert("Donation sent!");
 };
+
   return (
     <>
-            <div className="mt-15 px-4 ">
-      <h2 className="text-2xl  mb-5 font-semibold">Donor Name</h2>
-        <Table columns={columns} data={requests} onAction={handleAccept} actionLabel='Accept' />
-      </div> 
+      <div className="mt-15 px-4 ">
+        <h2 className="text-xl  mb-5 font-semibold">Blood Requests</h2>
+        <Table
+          columns={columns}
+          data={requests}
+          onAction={handleDonate}
+          actionLabel="Donate"
+        />
+      </div>
     </>
-  )
+  );
 }

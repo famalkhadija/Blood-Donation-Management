@@ -3,24 +3,38 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../store/userSlice";
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("donor");
-  const [isLoggedIn, setisLoggedIn] = useState(true);
   const navigate = useNavigate();
-
-  const handleSubmit = (e) => {
+  const dispatch = useDispatch();
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log("Login Data:", { email, password, role });
-    if (role === "donor" && isLoggedIn == true) navigate("/donor");
-    else if (role === "hospital" && isLoggedIn == true)
-      navigate("/hospital");
-    else {
-      alert("You are not registered yet, please register first!");
-      navigate("/");
+    
+    const res=await fetch("http://localhost:5000/api/users/login",{
+      method:"POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password, role }),
+    })
+    const data=await res.json();
+    console.log("Login Response:", data);
+    if (!res.ok) {
+      alert(data.message);
+      return;
     }
+console.log("saving token:", data.token);
+    localStorage.setItem("token", data.token);
+    console.log("Token saved:", localStorage.getItem("token"));
+    dispatch(loginUser(data.user));
+navigate(data.user.role === "donor" ? "/donor" : "/hospital");
   };
 
   return (
@@ -79,7 +93,7 @@ export default function Login() {
               Register
             </Link>
           </p>
-          <Button text="Login" onClick={handleSubmit}/>
+          <Button text="Login" type="submit"/>
         </form>
       </div>
     </div>

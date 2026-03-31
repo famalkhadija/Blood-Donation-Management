@@ -8,7 +8,7 @@ export default function HospitalLayout() {
   return (
     <div className="flex flex-col md:flex-row ">
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} links={hospitalLinks} />
-      <div className="flex-1 p-6">
+      <div className="flex-1 pt-10 px-6 pb-10">
 <Header title="Hospital Dashboard" path="/hospital/profile" />
         <Outlet />
       </div>

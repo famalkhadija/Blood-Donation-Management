@@ -3,10 +3,14 @@ import { FaUserCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { Link } from "react-router-dom";
+import { logoutUser } from "../store/userSlice";
+import { useDispatch } from "react-redux";
 export default function Header({ title, path }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout = () => {
-    // backend logic
+localStorage.removeItem("token");
+    dispatch(logoutUser());
     navigate("/login");
   };
   return (

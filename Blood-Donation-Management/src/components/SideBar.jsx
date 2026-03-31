@@ -7,14 +7,14 @@ export default function SideBar({ isOpen, links, setIsOpen }) {
     <>
       {/* toggle button */}
       <div
-        className={`hamburger pt-5 px-5 md:hidden z-20 ${isOpen ? "bg-gray-180 " : "bg-transparent w-auto"}`}
+        className={`hamburger pt-2 px-5 lg:hidden z-20 fixed  ${isOpen ? "bg-gray-180 " : "bg-transparent w-auto"}`}
       >
         <button className="cursor-pointer " onClick={() => setIsOpen(!isOpen)}>
           <GiHamburgerMenu size={25} />
         </button>
       </div>
-      <div className={`${isOpen ? "fixed z-10 block" : "hidden"} md:block`}>
-        <div className=" bg-gray-100  h-screen py-14 px-1">
+      <div className={`${isOpen ? "fixed z-10 block" : "hidden"} lg:block`}>
+        <div className="h-screen bg-gray-100 py-14 px-1">
           <div className=" flex justify-center items-center pt-5 gap-2">
             <img className="w-14" src={logo} alt="logo" />
             <h1 className="font-bold text-xl text-purple-950 pt-5">BDMS</h1>
