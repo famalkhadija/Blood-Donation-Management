@@ -1,20 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef } from "react";
 import logo from "../assets/blood-icon.png";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { NavLink } from "react-router-dom";
 export default function SideBar({ isOpen, links, setIsOpen }) {
+  const sidebarRef = useRef();
+  const buttonRef = useRef();
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setIsOpen]);
   return (
     <>
-      {/* toggle button */}
+      {/* hamburger toggle button */}
       <div
         className={`hamburger pt-2 px-5 lg:hidden z-20 fixed  ${isOpen ? "bg-gray-180 " : "bg-transparent w-auto"}`}
+        ref={buttonRef}
       >
         <button className="cursor-pointer " onClick={() => setIsOpen(!isOpen)}>
           <GiHamburgerMenu size={25} />
         </button>
       </div>
-      <div className={`${isOpen ? "fixed z-10 block" : "hidden"} lg:block`}>
-        <div className="h-screen bg-gray-100 py-14 px-1">
+      <div
+        ref={sidebarRef}
+        className={`${isOpen ? "fixed z-10 block" : "hidden"} lg:block`}
+      >
+        <div className="h-screen lg:w-[20vw] bg-gray-100 py-14 px-1">
           <div className=" flex justify-center items-center pt-5 gap-2">
             <img className="w-14" src={logo} alt="logo" />
             <h1 className="font-bold text-xl text-purple-950 pt-5">BDMS</h1>

@@ -13,28 +13,23 @@ export default function Login() {
   const [role, setRole] = useState("donor");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login Data:", { email, password, role });
-    
-    const res=await fetch("http://localhost:5000/api/users/login",{
-      method:"POST",
+    const res = await fetch("http://localhost:5000/api/users/login", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password, role }),
-    })
-    const data=await res.json();
-    console.log("Login Response:", data);
+    });
+    const data = await res.json();
     if (!res.ok) {
       alert(data.message);
       return;
     }
-console.log("saving token:", data.token);
     localStorage.setItem("token", data.token);
-    console.log("Token saved:", localStorage.getItem("token"));
     dispatch(loginUser(data.user));
-navigate(data.user.role === "donor" ? "/donor" : "/hospital");
+    navigate(data.user.role === "donor" ? "/donor" : "/hospital");
   };
 
   return (
@@ -93,7 +88,7 @@ navigate(data.user.role === "donor" ? "/donor" : "/hospital");
               Register
             </Link>
           </p>
-          <Button text="Login" type="submit"/>
+          <Button text="Login" type="submit" />
         </form>
       </div>
     </div>

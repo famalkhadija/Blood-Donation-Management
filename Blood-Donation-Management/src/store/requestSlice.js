@@ -1,50 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  requests: [
-    {
-      id: 1,
-      hospital: "City Hospital",
-      bloodgroup: "A+",
-      date: "12-02-2026",
-      status: "Pending",
-      city:"Lahore",
-    },
-    {
-      id: 2,
-      hospital: "Life Care",
-      bloodgroup: "O-",
-      date: "10-02-2026",
-      status: "Pending",
-      city:"Lahore",
-      
-    },
-  ],
+  requests: [],
 };
 const requestSlice = createSlice({
   name: "requests",
   initialState,
   reducers: {
-
+    //set requests from backend
+    setRequests: (state, action) => {
+      state.requests = action.payload;
+    },
     // create request (donor)
     createRequest: (state, action) => {
-      state.requests.push({
-        id: Date.now(),
-        ...action.payload,
-        status: "Pending",
-      });
+      state.requests.push(action.payload);
     },
-    // donor/hospital accept
+    //  accept request
     acceptRequest: (state, action) => {
-      const req = state.requests.find(r => r.id === action.payload);
+      const req = state.requests.find((r) => r.id === action.payload);
       if (req) {
         req.status = "Completed";
       }
     },
-
   },
 });
 
-export const { createRequest, acceptRequest } = requestSlice.actions;
+export const { setRequests, createRequest, acceptRequest } =
+  requestSlice.actions;
 
 export default requestSlice.reducer;

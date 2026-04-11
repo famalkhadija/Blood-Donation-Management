@@ -1,5 +1,4 @@
 import { MdDashboard } from "react-icons/md";
-import { BiSolidDonateBlood } from "react-icons/bi";
 import { IoIosSettings } from "react-icons/io";
 
 export const donorLinks = [

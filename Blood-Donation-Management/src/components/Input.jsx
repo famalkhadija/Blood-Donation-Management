@@ -11,7 +11,7 @@ export default function Input({
 }) {
   return (
     <input
-      type={type} 
+      type={type}
       name={name}
       value={value}
       onChange={onChange}

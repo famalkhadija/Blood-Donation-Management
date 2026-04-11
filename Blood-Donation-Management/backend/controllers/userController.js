@@ -1,53 +1,27 @@
 import jwt from "jsonwebtoken";
-let users = [
-  {
-    role: "donor",
-    profile: {
-      name: "John Doe",
-      email: "john.doe@example.com",
-      phone: "123-456-7890",
-      bloodgroup: "A+",
-      city: "New York",
-      password: "password123", 
-    }
-  },
-  {
-    role: "hospital",
-    profile: {
-      name: "City Hospital",
-      email: "city.hospital@example.com",
-      phone: "987-654-3210",
-      city: "New York",
-      licenseNumber: "HOSP12345",
-      password: "password123", 
-    }
-  }
-]; // temporary storage
+import User from "../models/User.js";
 
 export const registerUser = async (req, res) => {
   const { role, profile } = req.body;
-// const hashedPassword = await bcrypt.hash(profile.password, 10);
-  const newUser = {
-    id: Date.now(),
+  const user = await User.create({
     role,
-    profile,
-  };
-
-  users.push(newUser);
+    ...profile,
+  });
 
   res.json({
     message: "User registered",
-    user: newUser,
+    user,
+    role: user.role,
   });
 };
 
-export const loginUser = async(req, res) => {
+export const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  const user = users.find(u => u.profile.email === email);
+  const user = await User.findOne({ where: { email } });
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
-  if(password !== user.profile.password){
+  if (password !== user.password) {
     return res.status(400).json({ message: "Wrong Password" });
   }
   const token = jwt.sign(
@@ -56,25 +30,21 @@ export const loginUser = async(req, res) => {
       role: user.role,
     },
     process.env.JWT_SECRET,
-    { expiresIn: "1d" }
+    { expiresIn: "1d" },
   );
   res.json({
     user,
+    role: user.role,
     token,
   });
 };
-export const updateProfile = (req, res) => {
-  const user = users.find(u => u.id === req.user.id);
+export const updateProfile = async (req, res) => {
+  const user = await User.findOne({ where: { id: req.user.id } });
 
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
-
-  // update profile
-  user.profile = {
-    ...user.profile,
-    ...req.body,
-  };
+  await user.update(req.body);
 
   res.json({
     message: "Profile updated",
@@ -82,11 +52,11 @@ export const updateProfile = (req, res) => {
   });
 };
 // /me
-export const getMe = (req, res) => {
-  const user = users.find(u => u.id === req.user.id);
+export const getMe = async (req, res) => {
+  const user = await User.findOne({ where: { id: req.user.id } });
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
 
-  res.json({user});
+  res.json({ user });
 };

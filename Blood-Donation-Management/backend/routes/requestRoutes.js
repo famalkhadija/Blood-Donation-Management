@@ -3,6 +3,7 @@ import {
   createRequest,
   getRequests,
   donateToRequest,
+  deleteRequest,
 } from "../controllers/requestController.js";
 import { authMiddleware } from "../middleware/auth.js";
 
@@ -11,5 +12,6 @@ const router = express.Router();
 router.post("/", authMiddleware, createRequest);
 router.get("/", authMiddleware, getRequests);
 router.post("/:id/donate", authMiddleware, donateToRequest);
+router.delete("/:id", authMiddleware, deleteRequest);
 
 export default router;

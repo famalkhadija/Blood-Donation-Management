@@ -9,7 +9,7 @@ export default function Register() {
   const [role, setRole] = useState("donor");
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
-    name:"",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -38,7 +38,7 @@ export default function Register() {
       return;
     }
     setError("");
-    const res= await fetch("http://localhost:5000/api/users/register", {
+    const res = await fetch("http://localhost:5000/api/users/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,21 +46,17 @@ export default function Register() {
       body: JSON.stringify({ role, profile: cleanData }),
     });
     const data = await res.json();
-    console.log("Register response:", data);
-  if (!res.ok) {
+    if (!res.ok) {
       setError(data.message || "Registration failed");
       return;
     }
-  dispatch(
-    registerUser({
-      ...data.user
-    })
-  );
-  navigate(
-    data.user.role === "donor"
-      ? "/donor"
-      : "/hospital"
-  );  };
+    dispatch(
+      registerUser({
+        ...data.user,
+      }),
+    );
+    navigate(data.user.role === "donor" ? "/donor" : "/hospital");
+  };
 
   return (
     <div className="flex">
@@ -115,7 +111,7 @@ export default function Register() {
             placeholder="Confirm Password"
             required
           />
-{error && <p className="text-red-500 text-sm">{error}</p>}
+          {error && <p className="text-red-500 text-sm">{error}</p>}
           <select
             value={role}
             onChange={(e) => setRole(e.target.value)}

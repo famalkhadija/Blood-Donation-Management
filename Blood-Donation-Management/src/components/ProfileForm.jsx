@@ -1,40 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "./Button";
-import { updateProfile } from "../store/userSlice";
+import { setUser, updateProfile } from "../store/userSlice";
 
 export default function ProfileForm() {
-
-const { profile, role } = useSelector((state) => state.user);
+  const { user, role } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState({ ...profile });
+  const [formData, setFormData] = useState({});
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem("token");
+      const res = await fetch("http://localhost:5000/api/users/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await res.json();
+      dispatch(setUser(data.user));
+      setFormData(data.user);
+    };
+    fetchUser();
+  }, []);
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     const token = localStorage.getItem("token");
-const res=await fetch("http://localhost:5000/api/users/profile", {
-  method: "PUT",
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  },
-  body: JSON.stringify(formData),
-});
-const data=await res.json();
-if (!res.ok) {
-    alert(data.message);
-    return;
-  }
-    dispatch(updateProfile(formData));
-    dispatch(updateProfile(data.user.profile));
+    e.preventDefault();
+    const res = await fetch("http://localhost:5000/api/users/profile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(formData),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      alert(data.message);
+      return;
+    }
+    dispatch(updateProfile(data.user));
     alert("Profile updated!");
   };
 
@@ -49,7 +60,6 @@ if (!res.ok) {
       <h1 className="text-2xl font-semibold mb-6">Edit Profile</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-
         {fields.map((key) => (
           <div key={key}>
             <label className="block text-sm font-medium text-gray-700">
@@ -69,7 +79,6 @@ if (!res.ok) {
         <div className="mt-6">
           <Button text="Save Changes" type="submit" />
         </div>
-
       </form>
     </div>
   );

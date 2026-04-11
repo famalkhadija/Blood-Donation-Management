@@ -9,7 +9,7 @@ export default function DonorLayout() {
     <div className="flex flex-col md:flex-row ">
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} links={donorLinks} />
       <div className="flex-1 pt-10 px-6 pb-10">
-<Header title="Donor Dashboard" path="/donor/profile" />
+        <Header title="Donor Dashboard" path="/donor/profile" />
         <Outlet />
       </div>
     </div>

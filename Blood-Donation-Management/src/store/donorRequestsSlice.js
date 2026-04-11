@@ -1,39 +1,23 @@
- import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
- donorRequests:[
-    {
-      id: 1,
-      name:"Anna",
-      phone:"123456789",
-      bloodgroup: "O-",
-      city:"Lahore",
-    },
-    {
-      id: 1,
-      name:"Anna",
-      phone:"123456789",
-      bloodgroup: "O-",
-      city:"Lahore",
-    },
-  ],
-
+  donorRequests: [],
 };
-
 
 const donorRequestSlice = createSlice({
   name: "donorRequests",
   initialState,
   reducers: {
-    // donor jab donate kare
+    //set donor requests from backend
+    setDonorRequests: (state, action) => {
+      state.donorRequests = action.payload;
+    },
+    // donor jab donate kare add donor
     addDonor: (state, action) => {
-      state.donorRequests.push({
-        id: Date.now(),
-        ...action.payload,
-      });
+      state.donorRequests.push(action.payload);
     },
   },
 });
 
-export const { addDonor, removeDonor } = donorRequestSlice.actions;
+export const { setDonorRequests, addDonor } = donorRequestSlice.actions;
 export default donorRequestSlice.reducer;

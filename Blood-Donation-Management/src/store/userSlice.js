@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 const initialState = {
   user: null,
   role: null,
@@ -23,8 +22,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      if(!action.payload)
-      return;
+      if (!action.payload) return;
       state.user = action.payload;
       state.role = action.payload.role;
       state.profile = action.payload.profile;
@@ -65,7 +63,13 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser,setLoading, registerUser, loginUser, updateProfile, logoutUser } =
-  userSlice.actions;
+export const {
+  setUser,
+  setLoading,
+  registerUser,
+  loginUser,
+  updateProfile,
+  logoutUser,
+} = userSlice.actions;
 
 export default userSlice.reducer;
