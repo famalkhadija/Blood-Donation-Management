@@ -10,14 +10,10 @@ export default function DonorDashboard() {
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchRequests = async () => {
-      const token = localStorage.getItem("token");
-
       const res = await fetch(
         `http://localhost:5000/api/requests?city=${encodeURIComponent(cityFilter)}&bloodgroup=${encodeURIComponent(bloodFilter)}`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+credentials: "include",
         },
       );
 
@@ -28,11 +24,8 @@ export default function DonorDashboard() {
     fetchRequests();
   }, [cityFilter, bloodFilter]);
   const handleDonate = async (row) => {
-    const token = localStorage.getItem("token");
     const resUser = await fetch("http://localhost:5000/api/users/me", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      credentials: "include",
     });
     const data = await resUser.json();
     const freshUser = data.user;
@@ -47,8 +40,8 @@ export default function DonorDashboard() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
           },
+          credentials: "include",
           body: JSON.stringify({
             donor: {
               name: freshUser.name,

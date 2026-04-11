@@ -6,9 +6,9 @@ import Header from "../../components/Header";
 export default function DonorLayout() {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="flex flex-col md:flex-row ">
+    <div className="flex flex-col lg:flex-row ">
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} links={donorLinks} />
-      <div className="flex-1 pt-10 px-6 pb-10">
+      <div className="flex-1 pt-10 px-3 pb-10">
         <Header title="Donor Dashboard" path="/donor/profile" />
         <Outlet />
       </div>

@@ -9,8 +9,11 @@ export default function Header({ title, path }) {
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleLogout = () => {
-    localStorage.removeItem("token");
+  const handleLogout =async () => {
+    const res=await fetch("http://localhost:5000/api/users/logout", {
+      method: "POST",
+      credentials: "include",
+    });
     dispatch(logoutUser());
     navigate("/login");
   };

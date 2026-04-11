@@ -7,7 +7,17 @@ export const registerUser = async (req, res) => {
     role,
     ...profile,
   });
+const token = jwt.sign(
+  { id: user.id, role: user.role },
+  process.env.JWT_SECRET,
+  { expiresIn: "7d" }
+);
 
+res.cookie("token", token, {
+  httpOnly: true,
+  secure: false,
+  sameSite: "lax",
+});
   res.json({
     message: "User registered",
     user,
@@ -32,6 +42,11 @@ export const loginUser = async (req, res) => {
     process.env.JWT_SECRET,
     { expiresIn: "1d" },
   );
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
   res.json({
     user,
     role: user.role,
@@ -59,4 +74,8 @@ export const getMe = async (req, res) => {
   }
 
   res.json({ user });
+};
+export const logoutUser = async (req, res) => {
+  res.clearCookie("token");
+  res.json({ message: "Logged out" });
 };

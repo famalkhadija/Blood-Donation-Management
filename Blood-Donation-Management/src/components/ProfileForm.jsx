@@ -9,11 +9,8 @@ export default function ProfileForm() {
   const [formData, setFormData] = useState({});
   useEffect(() => {
     const fetchUser = async () => {
-      const token = localStorage.getItem("token");
       const res = await fetch("http://localhost:5000/api/users/me", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: "include",
       });
       const data = await res.json();
       dispatch(setUser(data.user));
@@ -30,14 +27,13 @@ export default function ProfileForm() {
   };
 
   const handleSubmit = async (e) => {
-    const token = localStorage.getItem("token");
     e.preventDefault();
     const res = await fetch("http://localhost:5000/api/users/profile", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
+      credentials: "include",
       body: JSON.stringify(formData),
     });
     const data = await res.json();

@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoutes.js";
 import requestRoutes from "./routes/requestRoutes.js";
 import donorRoutes from "./routes/donorRoutes.js";
@@ -8,8 +9,12 @@ const PORT = process.env.PORT || 5000;
 import sequelize from "./config/db.js";
 import dotenv from "dotenv";
 dotenv.config();
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+}));
 app.use(express.json());
+app.use(cookieParser());
 app.use("/api/users", userRoutes);
 app.use("/api/requests", requestRoutes);
 app.use("/api/donors", donorRoutes);

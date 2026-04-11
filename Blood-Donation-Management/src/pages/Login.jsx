@@ -20,6 +20,7 @@ export default function Login() {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({ email, password, role }),
     });
     const data = await res.json();
@@ -27,7 +28,6 @@ export default function Login() {
       alert(data.message);
       return;
     }
-    localStorage.setItem("token", data.token);
     dispatch(loginUser(data.user));
     navigate(data.user.role === "donor" ? "/donor" : "/hospital");
   };

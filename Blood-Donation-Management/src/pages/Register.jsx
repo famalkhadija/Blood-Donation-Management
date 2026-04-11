@@ -43,6 +43,7 @@ export default function Register() {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({ role, profile: cleanData }),
     });
     const data = await res.json();

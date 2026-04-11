@@ -16,30 +16,30 @@ import HospProfile from "./pages/Hospital/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   const dispatch = useDispatch();
-  useEffect(() => {
-    const checkUser = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        dispatch(setLoading(false));
+useEffect(() => {
+  const checkUser = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/users/me", {
+        credentials: "include", 
+      });
+
+      if (!res.ok) {
+        dispatch(setUser(null));
         return;
       }
-      try {
-        const res = await fetch("http://localhost:5000/api/users/me", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = await res.json();
 
-        dispatch(setUser(data.user));
-      } catch (err) {
-        console.log(err);
-      } finally {
-        dispatch(setLoading(false)); // Set loading to false after check is done
-      }
-    };
-    checkUser();
-  }, []);
+      const data = await res.json();
+      dispatch(setUser(data.user));
+    } catch (err) {
+      console.log("Auth error:", err);
+      dispatch(setUser(null));
+    } finally {
+      dispatch(setLoading(false)); 
+    }
+  };
+
+  checkUser();
+}, []);
   const router = createBrowserRouter([
     //auth routes
     {

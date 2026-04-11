@@ -3,21 +3,17 @@ import Table from "../../components/Table";
 export default function HospitalDashboard() {
   const donorColumns = ["Name", "Phone", "BloodGroup", "CIty"];
   const [donorRequests, setdonorRequests] = useState([]);
-  const [cityFilter, setCityFilter] = useState("");
   const [bloodFilter, setBloodFilter] = useState("");
+
   useEffect(() => {
     fetchDonors();
-  }, [cityFilter, bloodFilter]);
+  }, [bloodFilter]);
 
   const fetchDonors = async () => {
-    const token = localStorage.getItem("token");
-
     const res = await fetch(
-      `http://localhost:5000/api/donors?city=${encodeURIComponent(cityFilter)}&bloodgroup=${encodeURIComponent(bloodFilter)}`,
+      `http://localhost:5000/api/donors?bloodgroup=${encodeURIComponent(bloodFilter)}`,
       {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+credentials: "include",
       },
     );
 
@@ -30,13 +26,6 @@ export default function HospitalDashboard() {
         <div className="flex flex-col sm:flex-row gap-2 justify-between items-center mb-5">
           <h2 className="text-xl font-semibold">Available Donors</h2>
           <div className="flex sm:flex-row flex-col gap-2">
-            <input
-              className=" p-2 mx-2 border border-gray-300 rounded"
-              placeholder="Search city"
-              value={cityFilter}
-              onChange={(e) => setCityFilter(e.target.value)}
-            />
-
             <select
               className="p-2 border border-gray-300 rounded"
               value={bloodFilter}

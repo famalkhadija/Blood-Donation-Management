@@ -8,12 +8,9 @@ export default function ShowRequests() {
   const handleDelete = async (row) => {
     const confirmDelete = confirm("Are you sure you want to delete?");
     if (!confirmDelete) return;
-    const token = localStorage.getItem("token");
     const res = await fetch(`http://localhost:5000/api/requests/${row.id}`, {
       method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      credentials: "include",
     });
     const data = await res.json();
     if (!res.ok) {
@@ -25,14 +22,10 @@ export default function ShowRequests() {
   };
   useEffect(() => {
     const fetchRequests = async () => {
-      const token = localStorage.getItem("token");
-
       const res = await fetch(
         `http://localhost:5000/api/requests?city=${encodeURIComponent(cityFilter)}&bloodgroup=${encodeURIComponent(bloodFilter)}`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+credentials: "include",
         },
       );
 
