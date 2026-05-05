@@ -10,7 +10,7 @@ import sequelize from "./config/db.js";
 import dotenv from "dotenv";
 dotenv.config();
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "*",
   credentials: true,
 }));
 app.use(express.json());
