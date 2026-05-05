@@ -64,7 +64,7 @@ export default function Register() {
     <div className="flex">
       <div className="left hidden md:block w-[25vw] bg-gray-100 h-screen">
         <div className="flex justify-center items-center mt-30 gap-2">
-          <img className="w-18" src="src/assets/blood-icon.png" alt="logo" />
+<img src="/blood-icon.png" alt="logo" />
           <h1 className="font-bold text-2xl text-purple-950 pt-5">BDMS</h1>
         </div>
         <p className="text-center mt-10 text-purple-950 px-5 xl:px-20">
