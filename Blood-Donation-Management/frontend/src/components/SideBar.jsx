@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import logo from "../assets/blood-icon.png";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { NavLink } from "react-router-dom";
 const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
@@ -39,7 +38,7 @@ export default function SideBar({ isOpen, links, setIsOpen }) {
       >
         <div className="h-screen lg:w-[20vw] bg-gray-100 py-14 px-1">
           <div className=" flex justify-center items-center pt-5 gap-2">
-            <img className="w-14" src={logo} alt="logo" />
+            <img className="w-80" src="/blood-icon.png" />{" "}
             <h1 className="font-bold text-xl text-purple-950 pt-5">BDMS</h1>
           </div>
 
