@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "./Button";
 import { setUser, updateProfile } from "../store/userSlice";
-
+const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
 export default function ProfileForm() {
   const { user, role } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/users/me`, {
+      const res = await fetch(`${API_URL}/api/users/me`, {
         credentials: "include",
       });
       const data = await res.json();

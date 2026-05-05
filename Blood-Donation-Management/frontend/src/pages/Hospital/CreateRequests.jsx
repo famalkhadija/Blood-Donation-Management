@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "../../components/Button";
 import { useDispatch } from "react-redux";
 import { createRequest } from "../../store/requestSlice";
+const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
 export default function CreateRequests() {
   const hospitalsList = [
     "City Hospital",
@@ -26,7 +27,7 @@ export default function CreateRequests() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/requests`, {
+    const res = await fetch(`${API_URL}/api/requests`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

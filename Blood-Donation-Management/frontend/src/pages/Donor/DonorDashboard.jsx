@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../../components/Table";
 import { addDonor } from "../../store/donorRequestsSlice";
 import { useDispatch } from "react-redux";
+const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
 export default function DonorDashboard() {
   const columns = ["ID", "Hospital", "BloodGroup", "City", "Date", "Status"];
   const [requests, setRequests] = useState([]);
@@ -11,7 +12,7 @@ export default function DonorDashboard() {
   useEffect(() => {
     const fetchRequests = async () => {
       const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/requests?city=${encodeURIComponent(cityFilter)}&bloodgroup=${encodeURIComponent(bloodFilter)}`,
+        `${API_URL}/api/requests?city=${encodeURIComponent(cityFilter)}&bloodgroup=${encodeURIComponent(bloodFilter)}`,
         {
 credentials: "include",
         },
@@ -23,7 +24,7 @@ credentials: "include",
     fetchRequests();
   }, [cityFilter, bloodFilter]);
   const handleDonate = async (row) => {
-    const resUser = await fetch(`${process.env.REACT_APP_API_URL}/api/users/me`, {
+    const resUser = await fetch(`${API_URL}/api/users/me`, {
       credentials: "include",
     });
     const data = await resUser.json();
@@ -34,7 +35,7 @@ credentials: "include",
     }
     try {
       const res = await fetch(
-        `http://localhost:5000/api/requests/${row.id}/donate`,
+        `${API_URL}/api/requests/${row.id}/donate`,
         {
           method: "POST",
           headers: {

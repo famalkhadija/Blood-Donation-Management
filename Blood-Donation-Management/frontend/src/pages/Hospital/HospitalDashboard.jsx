@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Table from "../../components/Table";
+const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
 export default function HospitalDashboard() {
   const donorColumns = ["Name", "Phone", "BloodGroup", "CIty"];
   const [donorRequests, setdonorRequests] = useState([]);
@@ -11,7 +12,7 @@ export default function HospitalDashboard() {
 
   const fetchDonors = async () => {
     const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/api/donors?bloodgroup=${encodeURIComponent(bloodFilter)}`,
+      `${API_URL}/api/donors?bloodgroup=${encodeURIComponent(bloodFilter)}`,
       {
 credentials: "include",
       },

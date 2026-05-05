@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../store/userSlice";
+const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
 export default function Register() {
   const [role, setRole] = useState("donor");
   const [error, setError] = useState("");
@@ -38,7 +39,7 @@ export default function Register() {
       return;
     }
     setError("");
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/users/register`, {
+    const res = await fetch(`${API_URL}/api/users/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

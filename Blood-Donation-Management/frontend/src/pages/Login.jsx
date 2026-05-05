@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../store/userSlice";
-
+const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +15,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/users/login`, {
+    const res = await fetch(`${API_URL}/api/users/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

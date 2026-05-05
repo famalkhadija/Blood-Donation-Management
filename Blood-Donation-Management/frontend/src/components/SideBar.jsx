@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import logo from "../assets/blood-icon.png";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { NavLink } from "react-router-dom";
+const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
 export default function SideBar({ isOpen, links, setIsOpen }) {
   const sidebarRef = useRef();
   const buttonRef = useRef();

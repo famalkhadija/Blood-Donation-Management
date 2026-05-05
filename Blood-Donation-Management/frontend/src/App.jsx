@@ -14,12 +14,13 @@ import CreateRequests from "./pages/Hospital/CreateRequests";
 import ShowRequests from "./pages/Hospital/ShowRequests";
 import HospProfile from "./pages/Hospital/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
+const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
 function App() {
   const dispatch = useDispatch();
 useEffect(() => {
   const checkUser = async () => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/users/me`, {
+      const res = await fetch(`${API_URL}/api/users/me`, {
         credentials: "include", 
       });
 
