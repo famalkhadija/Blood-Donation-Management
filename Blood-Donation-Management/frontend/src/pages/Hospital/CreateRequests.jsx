@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "../../components/Button";
 import { useDispatch } from "react-redux";
 import { createRequest } from "../../store/requestSlice";
-const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 export default function CreateRequests() {
   const hospitalsList = [
     "City Hospital",

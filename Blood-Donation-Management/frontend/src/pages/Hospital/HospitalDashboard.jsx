@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Table from "../../components/Table";
-const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 export default function HospitalDashboard() {
   const donorColumns = ["Name", "Phone", "BloodGroup", "CIty"];
   const [donorRequests, setdonorRequests] = useState([]);

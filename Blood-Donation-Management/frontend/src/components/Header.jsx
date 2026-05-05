@@ -5,7 +5,7 @@ import Button from "./Button";
 import { Link } from "react-router-dom";
 import { logoutUser } from "../store/userSlice";
 import { useSelector, useDispatch } from "react-redux";
-const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 export default function Header({ title, path }) {
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();

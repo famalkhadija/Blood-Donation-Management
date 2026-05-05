@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../../components/Table";
 import { addDonor } from "../../store/donorRequestsSlice";
 import { useDispatch } from "react-redux";
-const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 export default function DonorDashboard() {
   const columns = ["ID", "Hospital", "BloodGroup", "City", "Date", "Status"];
   const [requests, setRequests] = useState([]);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "./Button";
 import { setUser, updateProfile } from "../store/userSlice";
-const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 export default function ProfileForm() {
   const { user, role } = useSelector((state) => state.user);
   const dispatch = useDispatch();
