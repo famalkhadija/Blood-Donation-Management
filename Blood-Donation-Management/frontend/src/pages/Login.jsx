@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../store/userSlice";
-import logo from "../assets/blood-icon.png";
 const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000";
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -37,8 +36,7 @@ export default function Login() {
     <div className="flex">
       <div className="left hidden md:block w-[25vw] bg-gray-100 h-screen">
         <div className="flex justify-center items-center mt-30 gap-2">
-          <img className="w-18" src="/blood-icon.png" />{" "}
-          <h1 className="font-bold text-2xl text-purple-950 pt-5">BDMS</h1>
+<img className="w-80" src="/blood-icon.png" />          <h1 className="font-bold text-2xl text-purple-950 pt-5">BDMS</h1>
         </div>
         <p className="text-center mt-10 text-purple-950 px-5 xl:px-20">
           Rapid Blood Donation Solution for Faster Medical Support.
