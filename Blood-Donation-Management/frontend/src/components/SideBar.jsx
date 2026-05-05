@@ -38,7 +38,7 @@ export default function SideBar({ isOpen, links, setIsOpen }) {
       >
         <div className="h-screen lg:w-[20vw] bg-gray-100 py-14 px-1">
           <div className=" flex justify-center items-center pt-5 gap-2">
-            <img className="w-80" src="/blood-icon.png" />{" "}
+            <img className="w-80" src="/blood-icon.png" />
             <h1 className="font-bold text-xl text-purple-950 pt-5">BDMS</h1>
           </div>
 
