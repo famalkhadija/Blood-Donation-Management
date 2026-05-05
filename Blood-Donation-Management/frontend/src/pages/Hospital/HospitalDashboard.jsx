@@ -11,7 +11,7 @@ export default function HospitalDashboard() {
 
   const fetchDonors = async () => {
     const res = await fetch(
-      `http://localhost:5000/api/donors?bloodgroup=${encodeURIComponent(bloodFilter)}`,
+      `${process.env.REACT_APP_API_URL}/api/donors?bloodgroup=${encodeURIComponent(bloodFilter)}`,
       {
 credentials: "include",
       },

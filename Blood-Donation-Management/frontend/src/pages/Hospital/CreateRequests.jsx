@@ -26,7 +26,7 @@ export default function CreateRequests() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
-    const res = await fetch("http://localhost:5000/api/requests", {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/requests`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

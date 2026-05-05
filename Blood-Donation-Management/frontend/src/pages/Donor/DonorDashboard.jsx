@@ -11,7 +11,7 @@ export default function DonorDashboard() {
   useEffect(() => {
     const fetchRequests = async () => {
       const res = await fetch(
-        `http://localhost:5000/api/requests?city=${encodeURIComponent(cityFilter)}&bloodgroup=${encodeURIComponent(bloodFilter)}`,
+        `${process.env.REACT_APP_API_URL}/api/requests?city=${encodeURIComponent(cityFilter)}&bloodgroup=${encodeURIComponent(bloodFilter)}`,
         {
 credentials: "include",
         },
@@ -19,12 +19,11 @@ credentials: "include",
 
       const data = await res.json();
       setRequests(data);
-    };
-
+    }
     fetchRequests();
   }, [cityFilter, bloodFilter]);
   const handleDonate = async (row) => {
-    const resUser = await fetch("http://localhost:5000/api/users/me", {
+    const resUser = await fetch(`${process.env.REACT_APP_API_URL}/api/users/me`, {
       credentials: "include",
     });
     const data = await resUser.json();

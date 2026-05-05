@@ -9,7 +9,7 @@ export default function ProfileForm() {
   const [formData, setFormData] = useState({});
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await fetch("http://localhost:5000/api/users/me", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/users/me`, {
         credentials: "include",
       });
       const data = await res.json();
@@ -28,7 +28,7 @@ export default function ProfileForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:5000/api/users/profile", {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/users/profile`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

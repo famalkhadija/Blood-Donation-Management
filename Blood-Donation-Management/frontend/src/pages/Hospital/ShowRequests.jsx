@@ -8,7 +8,7 @@ export default function ShowRequests() {
   const handleDelete = async (row) => {
     const confirmDelete = confirm("Are you sure you want to delete?");
     if (!confirmDelete) return;
-    const res = await fetch(`http://localhost:5000/api/requests/${row.id}`, {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/requests/${row.id}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -23,7 +23,7 @@ export default function ShowRequests() {
   useEffect(() => {
     const fetchRequests = async () => {
       const res = await fetch(
-        `http://localhost:5000/api/requests?city=${encodeURIComponent(cityFilter)}&bloodgroup=${encodeURIComponent(bloodFilter)}`,
+        `${process.env.REACT_APP_API_URL}/api/requests?city=${encodeURIComponent(cityFilter)}&bloodgroup=${encodeURIComponent(bloodFilter)}`,
         {
 credentials: "include",
         },

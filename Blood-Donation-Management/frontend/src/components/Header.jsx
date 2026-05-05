@@ -10,7 +10,7 @@ export default function Header({ title, path }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout =async () => {
-    const res=await fetch("http://localhost:5000/api/users/logout", {
+    const res=await fetch(`${process.env.REACT_APP_API_URL}/api/users/logout`, {
       method: "POST",
       credentials: "include",
     });
